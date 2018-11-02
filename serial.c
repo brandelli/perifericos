@@ -71,19 +71,19 @@ int config_serial(char * device, unsigned int baudrate){
 }
 
 
-int sendToArduino(int button, int option){
+int sendToArduino(int pattern){
 	int fd;
-	
+	//printf("%d\n", pattern);
 	fd = config_serial("/dev/ttyAMA0", B9600);
 	if(fd<0){
 		return 0;
 	}
-			
-	write(fd, &button, 1); 
+		
+	write(fd, &pattern, 1); 
+	//printf("Enviou para o arduino");
+	//read(fd, &pattern, 1);
 	
-	read(fd, &button, 1);
-	
-	printf("%d\n", button);
+	//printf("%d\n", pattern);
 	
 	close(fd);
 		

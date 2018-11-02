@@ -15,6 +15,15 @@ using namespace std;
  
 #define LOW  0
 #define HIGH 1
+
+enum state
+{
+    config,
+	pattern
+};
+
+int arPattern = 2;
+state st = config;
  
 static int
 GPIOExport(int pin)
@@ -186,13 +195,40 @@ int configButtons()
 	return 1;
 }
 
+void configAction(int btn1, int btn2, int btn3)
+{
+	if(!btn1){
+		if(arPattern < 8)
+			arPattern++;
+	}else if(!btn2){
+		if(arPattern > 2)
+			arPattern--;
+	}else if(!btn3){
+		cout << "Envia padrao para arduino" << endl;
+		sendToArduino(arPattern);
+		st = pattern;
+	}
+}
+
+void patternAction(int btn1, int btn2, int btn3)
+{
+	if(!btn1 || !btn2){
+		st = config;
+		sendToArduino(0);
+	}else if(!btn3){
+		cout << "Solicita numero de padroes" << endl;
+	}
+}
+
+
 
  
 int main(int argc, char *argv[])
 {
 	int btn1, btn2,btn3;	
 	cout << "Inicio do programa" << endl;    
- 
+ 	cout << "Padrão Selecionado " << arPattern << endl;
+
 	if(!initializeGPIOs())
 		return 1;
 
@@ -204,9 +240,21 @@ int main(int argc, char *argv[])
 		btn2 = GPIORead(24);
 		btn3 = GPIORead(23);
 		
+		switch(st){
+			case config:
+				configAction(btn1, btn2, btn3);
+				cout << "Padrão Selecionado " << arPattern << endl;
+				break;
+			case pattern:
+				patternAction(btn1, btn2, btn3);
+				break;
+				
+		}
+		/*
 		cout << "Button 1 " << btn1 << endl;
 		cout << "Button 2 " << btn2 << endl;
 		cout << "Button 3 " << btn3 << endl;
+		*/
 		usleep(500 * 1000);	
 	}
 
