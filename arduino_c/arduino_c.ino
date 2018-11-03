@@ -1,4 +1,7 @@
 int inByte = 0;
+int lastInByte = 0;
+int fromSerial = 0;
+int pat2, pat3, pat4, pat5, pat6, pat7,pat8;
 void setup() {
  /* Inicializa a porta serial em 9600 bytes/s */
  Serial.begin(9600);
@@ -7,6 +10,13 @@ void setup() {
  pinMode(12, OUTPUT);
  pinMode(11, OUTPUT);
  pinMode(10, OUTPUT);
+ pat2 = 0;
+ pat3 = 0;
+ pat4 = 0;
+ pat5 = 0;
+ pat6 = 0;
+ pat7 = 0;
+ pat8 = 0;
 }
 
 void configArduino(){
@@ -20,6 +30,9 @@ void configArduino(){
   digitalWrite(11, LOW);
   digitalWrite(10, LOW);
   delay(500);
+  if(fromSerial == 1){
+    fromSerial = 0;
+  }
 }
 
 void pattern2(){
@@ -33,6 +46,10 @@ void pattern2(){
   digitalWrite(11, LOW);
   digitalWrite(10, HIGH);
   delay(500);
+  if(fromSerial == 1){
+    pat2++;
+    fromSerial = 0;
+  }
 }
 
 void pattern3(){
@@ -46,6 +63,10 @@ void pattern3(){
   digitalWrite(11, LOW);
   digitalWrite(10, LOW);
   delay(500);
+  if(fromSerial == 1){
+    pat3++;
+    fromSerial = 0;
+  }
 }
 
 void pattern4(){
@@ -59,6 +80,10 @@ void pattern4(){
   digitalWrite(11, HIGH);
   digitalWrite(10, HIGH);
   delay(500);
+  if(fromSerial == 1){
+    pat4++;
+    fromSerial = 0;
+  }
 }
 
 void pattern5(){
@@ -72,6 +97,10 @@ void pattern5(){
   digitalWrite(11, HIGH);
   digitalWrite(10, LOW);
   delay(500);
+  if(fromSerial == 1){
+    pat5++;
+    fromSerial = 0;
+  }
 }
 
 void pattern6(){
@@ -85,6 +114,10 @@ void pattern6(){
   digitalWrite(11, LOW);
   digitalWrite(10, HIGH);
   delay(500);
+  if(fromSerial == 1){
+    pat6++;
+    fromSerial = 0;
+  }
 }
 
 void pattern7(){
@@ -98,6 +131,10 @@ void pattern7(){
   digitalWrite(11, LOW);
   digitalWrite(10, LOW);
   delay(500);
+  if(fromSerial == 1){
+    pat7++;
+    fromSerial = 0;
+  }
 }
 
 void pattern8(){
@@ -111,22 +148,46 @@ void pattern8(){
   digitalWrite(11, HIGH);
   digitalWrite(10, HIGH);
   delay(500);
+  if(fromSerial == 1){
+    pat8++;
+    fromSerial = 0;
+  }
+}
+
+void pattern1(){
+   Serial.write(pat2);
+   delay(10);
+   Serial.write(pat3);
+   delay(10);
+   Serial.write(pat4);
+   delay(10);
+   Serial.write(pat5);
+   delay(10);
+   Serial.write(pat6);
+   delay(10);
+   Serial.write(pat7);
+   delay(10);
+   Serial.write(pat8);
+   delay(10);
+   inByte = lastInByte;
+   if(fromSerial == 1){
+    fromSerial = 0;
+  }   
 }
 
 void loop() {
  /* Aguarda o recebimento de dados */
  if (Serial.available() > 0) {
-   /* liga o LED */
-   /* Le byte da serial */
+   lastInByte = inByte;
    inByte = Serial.read();
-   /* Responde o byte pela serial */
-   //Serial.print(inByte);
-   /* Desliga o LED */
-   delay(500);
+   fromSerial = 1;
  }
  switch (inByte) {
       case 0:
         configArduino();
+        break;
+      case 1:
+        pattern1();
         break;
       case 2:
         pattern2();

@@ -166,6 +166,7 @@ int initializeGPIOs()
 		cout << "Falha no export" << endl; 	
 		return 0;
 	}
+	sendToArduino(0);
 	return 1;
 }
 
@@ -217,12 +218,10 @@ void patternAction(int btn1, int btn2, int btn3)
 		sendToArduino(0);
 	}else if(!btn3){
 		cout << "Solicita numero de padroes" << endl;
+		sendToArduino(1);
 	}
 }
 
-
-
- 
 int main(int argc, char *argv[])
 {
 	int btn1, btn2,btn3;	

@@ -80,10 +80,26 @@ int sendToArduino(int pattern){
 	}
 		
 	write(fd, &pattern, 1); 
-	//printf("Enviou para o arduino");
+	if(pattern == 1){
+		read(fd, &pattern, 1);
+		printf("Numero de vezes padrao 2: %d \n", pattern);	
+		read(fd, &pattern, 1);
+		printf("Numero de vezes padrao 3: %d \n", pattern);
+		read(fd, &pattern, 1);
+		printf("Numero de vezes padrao 4: %d \n", pattern);
+		read(fd, &pattern, 1);
+		printf("Numero de vezes padrao 5: %d \n", pattern);
+		read(fd, &pattern, 1);
+		printf("Numero de vezes padrao 6: %d \n", pattern);
+		read(fd, &pattern, 1);
+		printf("Numero de vezes padrao 7: %d \n", pattern);
+		read(fd, &pattern, 1);
+		printf("Numero de vezes padrao 8: %d \n", pattern);
+			
+	}
 	//read(fd, &pattern, 1);
 	
-	//printf("%d\n", pattern);
+	printf("%d\n", pattern);
 	
 	close(fd);
 		
