@@ -201,9 +201,11 @@ void configAction(int btn1, int btn2, int btn3)
 	if(!btn1){
 		if(arPattern < 8)
 			arPattern++;
+		cout << "Padrão Selecionado " << arPattern << endl;
 	}else if(!btn2){
 		if(arPattern > 2)
 			arPattern--;
+		cout << "Padrão Selecionado " << arPattern << endl;
 	}else if(!btn3){
 		cout << "Envia padrao para arduino" << endl;
 		sendToArduino(arPattern);
@@ -230,7 +232,7 @@ int main(int argc, char *argv[])
 
 	if(!initializeGPIOs())
 		return 1;
-
+	
 	while(1){
 		if(!configButtons())
 			return 2;
@@ -242,7 +244,6 @@ int main(int argc, char *argv[])
 		switch(st){
 			case config:
 				configAction(btn1, btn2, btn3);
-				cout << "Padrão Selecionado " << arPattern << endl;
 				break;
 			case pattern:
 				patternAction(btn1, btn2, btn3);
